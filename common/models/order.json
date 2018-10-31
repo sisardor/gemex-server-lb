@@ -1,0 +1,38 @@
+{
+  "name": "Order",
+  "base": "Base",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "order_date": {
+      "type": "date"
+    },
+    "shipped_date": {
+      "type": "date"
+    },
+    "ship_via": {
+      "type": "number"
+    },
+    "freight": {
+      "type": "string"
+    }
+  },
+  "validations": [],
+  "relations": {
+    "products": {
+      "type": "hasMany",
+      "model": "Product",
+      "foreignKey": "orderId",
+      "through": "OrderDetail"
+    },
+    "customer": {
+      "type": "belongsTo",
+      "model": "Customer",
+      "foreignKey": ""
+    }
+  },
+  "acls": [],
+  "methods": {}
+}

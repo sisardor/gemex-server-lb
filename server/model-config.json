@@ -14,7 +14,8 @@
     ]
   },
   "User": {
-    "dataSource": "db"
+    "dataSource": "db",
+    "public": false
   },
   "AccessToken": {
     "dataSource": "db",
@@ -34,5 +35,33 @@
   "Role": {
     "dataSource": "db",
     "public": false
+  },
+  "Product": {
+    "dataSource": "mongodb",
+    "public": true
+  },
+  "user": {
+    "dataSource": "mongodb",
+    "public": true
+  },
+  "Category": {
+    "dataSource": "mongodb",
+    "public": true
+  },
+  "Base": {
+    "dataSource": "mongodb",
+    "public": false
+  },
+  "Order": {
+    "dataSource": "mongodb",
+    "public": true
+  },
+  "OrderDetail": {
+    "dataSource": "mongodb",
+    "public": true
+  },
+  "Customer": {
+    "dataSource": "mongodb",
+    "public": true
   }
 }
