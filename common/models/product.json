@@ -31,6 +31,40 @@
       "foreignKey": ""
     }
   },
-  "acls": [],
-  "methods": {}
+  "acls": [
+    {
+      "accessType": "WRITE",
+      "principalType": "ROLE",
+      "principalId": "$everyone",
+      "permission": "DENY"
+    },
+    {
+      "accessType": "EXECUTE",
+      "principalType": "ROLE",
+      "principalId": "$authenticated",
+      "permission": "ALLOW",
+      "property": "create"
+    },
+    {
+      "accessType": "EXECUTE",
+      "principalType": "ROLE",
+      "principalId": "$authenticated",
+      "permission": "ALLOW",
+      "property": "patchAttributes"
+    }
+  ],
+  "methods": {},
+  "mixins": {
+    "MethodWhitelist": {
+      "expose": [
+        "findById",
+        "create",
+        "patchAttributes",
+        "find",
+        "__findById__orders",
+        "__get__orders",
+        "__get__category"
+      ]
+    }
+  }
 }
