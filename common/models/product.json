@@ -57,17 +57,5 @@
     }
   ],
   "methods": {},
-  "mixins": {
-    "MethodWhitelist": {
-      "expose": [
-        "findById",
-        "create",
-        "patchAttributes",
-        "find",
-        "__findById__orders",
-        "__get__orders",
-        "__get__category"
-      ]
-    }
-  }
+  "mixins": {}
 }
