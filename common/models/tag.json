@@ -1,31 +1,23 @@
 {
-  "name": "Category",
+  "name": "Tag",
   "base": "PersistedModel",
   "idInjection": true,
   "options": {
     "validateUpsert": true
   },
   "properties": {
-    "name": {
+    "tag": {
       "type": "string",
       "required": true
     },
     "url": {
       "type": "string",
+      "default": "/market",
       "required": true
-    },
-    "description": {
-      "type": "string"
     }
   },
   "validations": [],
-  "relations": {
-    "products": {
-      "type": "hasMany",
-      "model": "Product",
-      "foreignKey": "categoryId"
-    }
-  },
+  "relations": {},
   "acls": [],
   "methods": {}
 }

@@ -5,12 +5,20 @@
   "options": {
     "validateUpsert": true
   },
+  "mixins": {},
   "properties": {
     "name": {
       "type": "string",
       "required": true
     },
     "type": {
+      "type": "string"
+    },
+    "currency": {
+      "type": "string",
+      "default": "CA"
+    },
+    "url": {
       "type": "string"
     },
     "price": {
@@ -31,6 +39,16 @@
     "category": {
       "type": "belongsTo",
       "model": "Category",
+      "foreignKey": ""
+    },
+    "owner": {
+      "type": "belongsTo",
+      "model": "user",
+      "foreignKey": "ownerId"
+    },
+    "tags": {
+      "type": "hasAndBelongsToMany",
+      "model": "Tag",
       "foreignKey": ""
     }
   },
@@ -54,8 +72,21 @@
       "principalId": "$authenticated",
       "permission": "ALLOW",
       "property": "patchAttributes"
+    },
+    {
+      "accessType": "EXECUTE",
+      "principalType": "ROLE",
+      "principalId": "$authenticated",
+      "permission": "ALLOW",
+      "property": "updateAll"
+    },
+    {
+      "accessType": "EXECUTE",
+      "principalType": "ROLE",
+      "principalId": "$authenticated",
+      "permission": "ALLOW",
+      "property": "__link__tags"
     }
   ],
-  "methods": {},
-  "mixins": {}
+  "methods": {}
 }
