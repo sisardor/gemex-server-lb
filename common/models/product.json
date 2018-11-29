@@ -1,6 +1,6 @@
 {
   "name": "Product",
-  "base": "PersistedModel",
+  "base": "Base",
   "idInjection": true,
   "options": {
     "validateUpsert": true
@@ -11,6 +11,17 @@
       "type": "string",
       "required": true
     },
+    "status": {
+      "type": "string",
+      "default": "draft"
+    },
+    "sku": {
+      "type": "[string]"
+    },
+    "views": {
+      "type": "number",
+      "default": 0
+    },
     "url": {
       "type": "string"
     },
@@ -20,6 +31,9 @@
     "currency": {
       "type": "string",
       "default": "CA"
+    },
+    "tags": {
+      "type": "[string]"
     },
     "price": {
       "type": "number"
@@ -39,18 +53,12 @@
     "category": {
       "type": "belongsTo",
       "model": "Category",
-      "foreignKey": ""
+      "foreignKey": "category_id"
     },
     "owner": {
       "type": "belongsTo",
       "model": "user",
-      "foreignKey": "ownerId"
-    },
-    "tags": {
-      "type": "hasMany",
-      "model": "Tag",
-      "foreignKey": "productId",
-      "through": "ProductTag"
+      "foreignKey": "owner_id"
     }
   },
   "acls": [
@@ -80,13 +88,6 @@
       "principalId": "$authenticated",
       "permission": "ALLOW",
       "property": "updateAll"
-    },
-    {
-      "accessType": "EXECUTE",
-      "principalType": "ROLE",
-      "principalId": "$authenticated",
-      "permission": "ALLOW",
-      "property": "__link__tags"
     }
   ],
   "methods": {}

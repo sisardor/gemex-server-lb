@@ -23,7 +23,7 @@ module.exports = function(Product) {
 
     if (ctx.isNewInstance) {
       ctx.instance.url = slugify(ctx.instance.name, opt)
-      ctx.instance.ownerId = ctx.options.accessToken.userId
+      ctx.instance.owner_id = ctx.options.accessToken.userId
     } else {
       ctx.data.url = slugify(ctx.data.name || ctx.currentInstance.name, opt)
     }

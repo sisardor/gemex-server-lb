@@ -63,13 +63,5 @@
   "Customer": {
     "dataSource": "mongodb",
     "public": true
-  },
-  "Tag": {
-    "dataSource": "mongodb",
-    "public": true
-  },
-  "ProductTag": {
-    "dataSource": "mongodb",
-    "public": true
   }
 }
