@@ -8,16 +8,29 @@
   "properties": {
     "tag": {
       "type": "string",
-      "required": true
+      "required": true,
+      "index": {
+        "unique": true
+      }
+    },
+    "slug": {
+      "type": "string"
     },
     "url": {
       "type": "string",
-      "default": "/market",
-      "required": true
+      "required": true,
+      "default": "/market"
     }
   },
   "validations": [],
-  "relations": {},
+  "relations": {
+    "products": {
+      "type": "hasMany",
+      "model": "Product",
+      "foreignKey": "tagId",
+      "through": "ProductTag"
+    }
+  },
   "acls": [],
   "methods": {}
 }

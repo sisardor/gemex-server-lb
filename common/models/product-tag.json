@@ -1,0 +1,29 @@
+{
+  "name": "ProductTag",
+  "base": "PersistedModel",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "isActive": {
+      "type": "boolean",
+      "default": true
+    }
+  },
+  "validations": [],
+  "relations": {
+    "product": {
+      "type": "belongsTo",
+      "model": "Product",
+      "foreignKey": "productId"
+    },
+    "tag": {
+      "type": "belongsTo",
+      "model": "Tag",
+      "foreignKey": "tagId"
+    }
+  },
+  "acls": [],
+  "methods": {}
+}

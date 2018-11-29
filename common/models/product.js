@@ -20,29 +20,31 @@ module.exports = function(Product) {
   // Product.disableRemoteMethodByName('prototype.patchAttributes', false);
 
   Product.observe('before save', function(ctx, next) {
+
     if (ctx.isNewInstance) {
       ctx.instance.url = slugify(ctx.instance.name, opt)
+      ctx.instance.ownerId = ctx.options.accessToken.userId
     } else {
       ctx.data.url = slugify(ctx.data.name || ctx.currentInstance.name, opt)
     }
 
     next();
   });
-  Product.observe('after save', function(ctx, next) {
-    if (ctx.isNewInstance && ctx.instance.categoryId) {
-      Product.app.models.Category.findById(ctx.instance.categoryId)
-        .then(category => {
-          let tag = {tag: category.name}
-          Product.app.models.Tag.upsertWithWhere(tag, tag)
-            .then(tag => {
-              ctx.instance.tags.add(tag.id)
-              next()
-            })
-            .catch(next)
-        })
-        .catch(next)
-    } else {
-      next()
-    }
-  });
+  // Product.observe('after save', function(ctx, next) {
+  //   if (ctx.isNewInstance && ctx.instance.categoryId) {
+  //     Product.app.models.Category.findById(ctx.instance.categoryId)
+  //       .then(category => {
+  //         let tag = {tag: category.name}
+  //         Product.app.models.Tag.upsertWithWhere(tag, tag)
+  //           .then(tag => {
+  //             ctx.instance.tags.add(tag.id)
+  //             next()
+  //           })
+  //           .catch(next)
+  //       })
+  //       .catch(next)
+  //   } else {
+  //     next()
+  //   }
+  // });
 };

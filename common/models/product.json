@@ -21,9 +21,6 @@
       "type": "string",
       "default": "CA"
     },
-    "url": {
-      "type": "string"
-    },
     "price": {
       "type": "number"
     },
@@ -50,9 +47,10 @@
       "foreignKey": "ownerId"
     },
     "tags": {
-      "type": "hasAndBelongsToMany",
+      "type": "hasMany",
       "model": "Tag",
-      "foreignKey": ""
+      "foreignKey": "productId",
+      "through": "ProductTag"
     }
   },
   "acls": [
