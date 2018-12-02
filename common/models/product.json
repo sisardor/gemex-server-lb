@@ -16,7 +16,8 @@
       "default": "draft"
     },
     "sku": {
-      "type": "[string]"
+      "type": "array",
+      "default": []
     },
     "views": {
       "type": "number",
@@ -33,13 +34,18 @@
       "default": "CA"
     },
     "tags": {
-      "type": "[string]"
+      "type": "array",
+      "default": []
     },
     "price": {
       "type": "number"
     },
     "images": {
       "type": "string"
+    },
+    "category_path": {
+      "type": "array",
+      "default": []
     }
   },
   "validations": [],

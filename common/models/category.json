@@ -1,24 +1,49 @@
 {
   "name": "Category",
   "base": "PersistedModel",
-  "idInjection": true,
+  "idInjection": false,
   "options": {
     "validateUpsert": true
   },
+  "forceId": false,
   "properties": {
+    "level": {
+      "type": "number",
+      "required": true
+    },
     "name": {
       "type": "string",
       "required": true
     },
-    "url": {
+    "path": {
       "type": "string",
-      "required": true
+      "default" : null
     },
     "slug": {
       "type": "string"
     },
-    "description": {
-      "type": "string"
+    "meta_title": {
+      "type": "string",
+      "default" : null
+    },
+    "meta_keywords": {
+      "type": "string",
+      "default" : null
+    },
+    "meta_description": {
+      "type": "string",
+      "default" : null
+    },
+    "page_title": {
+      "type": "string",
+      "default" : null
+    },
+    "page_description": {
+      "type": "string",
+      "default" : null
+    },
+    "children_ids": {
+      "type": "array"
     }
   },
   "validations": [],
@@ -27,6 +52,11 @@
       "type": "hasMany",
       "model": "Product",
       "foreignKey": "category_id"
+    },
+    "children": {
+      "type": "hasMany",
+      "model": "Category",
+      "foreignKey": "parent_id"
     }
   },
   "acls": [],
