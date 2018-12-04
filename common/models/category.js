@@ -18,7 +18,7 @@ module.exports = function(Category) {
   Category.observe('before save', function(ctx, next) {
     if (ctx.isNewInstance) {
       ctx.instance.slug = slugify(ctx.instance.name, opt)
-      ctx.instance.id = ctx.instance.name
+      // ctx.instance.id = ctx.instance.slug
     } else {
       ctx.data.slug = slugify(ctx.data.name || ctx.currentInstance.name, opt)
     }
@@ -29,14 +29,14 @@ module.exports = function(Category) {
     if (ctx.isNewInstance) {
       if (!ctx.instance.parent_id) {
         ctx.instance.parent_id = ''
-        ctx.instance.path = '/' + ctx.instance.slug
+        ctx.instance.path = ctx.instance.slug
         return next();
       } else {
         Category.findById(ctx.instance.parent_id)
           .then(parentCategory => {
             ctx.instance.level = parentCategory.level + 1
-            ctx.instance.children_ids = parentCategory.children_ids.concat(ctx.instance.parent_id)
-            ctx.instance.path = parentCategory.path + '/' + ctx.instance.slug
+            ctx.instance.path = parentCategory.path + '.' + ctx.instance.slug
+            ctx.instance.parent = parentCategory.path
             return next();
           })
           .catch(next);
@@ -55,11 +55,64 @@ module.exports = function(Category) {
   Category.observe('before save', function(ctx, next) {
     if (ctx.isNewInstance) {
       if (!ctx.instance.children_ids || !ctx.instance.children_ids.length) {
-        ctx.instance.level = 0
         ctx.instance.children_ids = []
       }
     }
     next();
   });
 
+  Category.observe('after save', function(ctx, next) {
+    if (ctx.isNewInstance && !ctx.instance.parent_id) {
+      // ctx.instance.full_path_taxonomy_ids = [ctx.instance.id]
+      ctx.instance.updateAttribute('full_path_taxonomy_ids', [ctx.instance.id])
+      return next();
+    } else if(ctx.isNewInstance) {
+      Category.findById(ctx.instance.parent_id)
+        .then(parentCategory => {
+          let parent_t = parentCategory.full_path_taxonomy_ids.concat(ctx.instance.id)
+          let children_ids = parentCategory.children_ids.concat(ctx.instance.id)
+          parentCategory.updateAttribute('children_ids', children_ids)
+          ctx.instance.updateAttribute('full_path_taxonomy_ids', parent_t)
+          return next()
+        })
+        .catch(next)
+    } else {
+      return next()
+    }
+  })
+
+  Category.greet = async function(msg) {
+      return 'Greetings... ' + msg;
+  }
+
+  Category.remoteMethod('greet', {
+        accepts: {arg: 'msg', type: 'string'},
+        returns: {arg: 'greeting', type: 'string'}
+  });
+
+
+  Category.remoteMethod('getProductByPath', {
+    description: [
+      'A custom endpoint to get Products by Cat path'
+    ],
+    accepts: [
+      {
+        arg: 'path', type: 'any',
+        description: 'Model path', required: true,
+        http: { source: 'path' }
+      }
+    ],
+    returns: { arg: 'data', type: 'object', root: true },
+    http: { verb: 'get', path: '/:path/products' }
+  })
+  Category.disableRemoteMethodByName('prototype.__get__products', false)
+  Category.getProductByPath = function (path, callback) {
+    Category.findOne({where:{path:path}})
+      .then(category => {
+        let filter = {where:{category_path: category.name}}
+        Category.app.models.Product.find(filter, callback)
+        // return callback(null, category)
+      })
+      .catch(callback)
+  }
 };

@@ -1,15 +1,15 @@
 {
   "name": "Category",
   "base": "PersistedModel",
-  "idInjection": false,
+  "idInjection": true,
   "options": {
     "validateUpsert": true
   },
-  "forceId": false,
   "properties": {
     "level": {
       "type": "number",
-      "required": true
+      "required": true,
+      "default": 0
     },
     "name": {
       "type": "string",
@@ -42,8 +42,17 @@
       "type": "string",
       "default" : null
     },
+    "parent": {
+      "type": "string",
+      "default": ""
+    },
     "children_ids": {
-      "type": "array"
+      "type": "array",
+      "default": []
+    },
+    "full_path_taxonomy_ids": {
+      "type": "array",
+      "default": []
     }
   },
   "validations": [],
