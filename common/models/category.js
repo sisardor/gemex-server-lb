@@ -1,5 +1,6 @@
 'use strict';
 const slugify = require('slugify')
+const async = require('async')
 const opt = {
   replacement: '-',    // replace spaces with replacement
   remove: null,        // regex to remove characters
@@ -100,18 +101,63 @@ module.exports = function(Category) {
         arg: 'path', type: 'any',
         description: 'Model path', required: true,
         http: { source: 'path' }
+      }, {
+        arg: 'filter',
+        type: 'object',
+        description: 'Query filter',
+        required: false,
+        http: { source: 'query' }
       }
     ],
     returns: { arg: 'data', type: 'object', root: true },
     http: { verb: 'get', path: '/:path/products' }
   })
   Category.disableRemoteMethodByName('prototype.__get__products', false)
-  Category.getProductByPath = function (path, callback) {
+  Category.getProductByPath = function (path, filter, callback) {
     Category.findOne({where:{path:path}})
       .then(category => {
-        let filter = {where:{category_path: category.name}}
+        if (!filter) {
+          filter = {}
+        }
+        filter.where = Object.assign({}, filter.where, {category_path: category.name})
         Category.app.models.Product.find(filter, callback)
-        // return callback(null, category)
+
+      })
+      .catch(callback)
+  }
+
+
+  Category.remoteMethod('getBreadcrumbs', {
+    description: [
+      'A custom endpoint to get breadcrumbs by Cat path'
+    ],
+    accepts: [
+      {
+        arg: 'path', type: 'any',
+        description: 'Model path', required: true,
+        http: { source: 'path' }
+      }
+    ],
+    returns: { arg: 'data', type: 'object', root: true },
+    http: { verb: 'get', path: '/:path/breadcrumbs' }
+  })
+
+  //Home > Accessories > Hair Accessories > Fascinators & Mini Hats
+  Category.getBreadcrumbs = function (path, callback) {
+    Category.findOne({where: { path }})
+      .then(category => {
+        if (!category) return callback(null, {})
+        
+        async.parallel({
+          breadcrumbs: function(cb) {
+            Category
+            .find({where: { id: { inq: category.full_path_taxonomy_ids}}}, cb)
+          },
+          product_count: function(cb) {
+            Category.app.models.Product
+            .count({category_path: category.name}, cb)
+          }
+        }, callback);
       })
       .catch(callback)
   }
