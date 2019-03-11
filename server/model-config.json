@@ -67,5 +67,13 @@
   "CategoryLink": {
     "dataSource": "mongodb",
     "public": false
+  },
+  "UserCredential": {
+    "dataSource": "mongodb",
+    "public": true
+  },
+  "UserIdentity": {
+    "dataSource": "mongodb",
+    "public": true
   }
 }

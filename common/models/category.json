@@ -17,30 +17,30 @@
     },
     "path": {
       "type": "string",
-      "default" : null
+      "default": null
     },
     "slug": {
       "type": "string"
     },
     "meta_title": {
       "type": "string",
-      "default" : null
+      "default": null
     },
     "meta_keywords": {
       "type": "string",
-      "default" : null
+      "default": null
     },
     "meta_description": {
       "type": "string",
-      "default" : null
+      "default": null
     },
     "page_title": {
       "type": "string",
-      "default" : null
+      "default": null
     },
     "page_description": {
       "type": "string",
-      "default" : null
+      "default": null
     },
     "parent": {
       "type": "string",
