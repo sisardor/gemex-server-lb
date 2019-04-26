@@ -75,5 +75,9 @@
   "UserIdentity": {
     "dataSource": "mongodb",
     "public": true
+  },
+  "shop": {
+    "dataSource": "mongodb",
+    "public": false
   }
 }
