@@ -11,6 +11,12 @@
     },
     "shopName": {
       "type": "string"
+    },
+    "shop_id": {
+      "type": "string",
+      "index": {
+        "unique": true
+      }
     }
   },
   "validations": [],

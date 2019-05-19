@@ -30,10 +30,17 @@
     "shops": {
       "type": "hasOne",
       "model": "Shop",
-      "foreignKey": ""
+      "foreignKey": "userId"
     }
   },
   "acls": [
+    {
+      "accessType": "EXECUTE",
+      "principalType": "ROLE",
+      "principalId": "$authenticated",
+      "permission": "ALLOW",
+      "property": "__create__shops"
+    },
     {
       "accessType": "EXECUTE",
       "principalType": "ROLE",

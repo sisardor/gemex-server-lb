@@ -76,8 +76,8 @@
     "dataSource": "mongodb",
     "public": true
   },
-  "shop": {
+  "Shop": {
     "dataSource": "mongodb",
-    "public": false
+    "public": true
   }
 }
